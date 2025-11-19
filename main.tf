@@ -1,11 +1,12 @@
 terraform {
   backend "azurerm" {
-    ressource_group_name = "poc-jlt-env-container"
+    resource_group_name  = "poc-jlt-env-container"
     storage_account_name = "pocjltenvstoragegithub"
-    container = "tfstate"
-    key = "terraform.tfstate"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
   }
 }
+
 
 ############################################################
 # Environment pour Container Apps
@@ -101,3 +102,4 @@ template {
 }
 
 }
+
