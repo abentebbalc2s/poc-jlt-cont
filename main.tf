@@ -15,18 +15,11 @@ required_providers {
 }
 
 */
-terraform {
-  required_providers {
-  azurerm = {
-  source = "hashicorp/azurerm"
-  version = "~> 4.0"
-}
-}
-}
-
 provider "azurerm" {
+  version = "~> 4.0"
   features {}
 }
+
 ############################################################
 # Environment pour Container Apps
 ############################################################
@@ -121,6 +114,7 @@ template {
 }
 
 }
+
 
 
 
