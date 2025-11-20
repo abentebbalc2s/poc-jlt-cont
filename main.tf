@@ -16,7 +16,7 @@ required_providers {
 
 */
 provider "azurerm" {
-  version = "~> 4.0"
+  version = "=4.0"
   features {}
 }
 
@@ -114,6 +114,7 @@ template {
 }
 
 }
+
 
 
 
