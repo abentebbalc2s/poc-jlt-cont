@@ -16,7 +16,7 @@ required_providers {
 
 */
 provider "azurerm" {
-  feature {}
+  features {}
 }
 ############################################################
 # Environment pour Container Apps
@@ -112,6 +112,7 @@ template {
 }
 
 }
+
 
 
 
