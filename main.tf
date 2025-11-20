@@ -1,3 +1,4 @@
+/*
 terraform {
   backend "azurerm" {
     resource_group_name  = "poc-jlt-env-container"
@@ -13,7 +14,10 @@ required_providers {
   }
 }
 
-
+*/
+provider "azurerm" {
+  feature {}
+}
 ############################################################
 # Environment pour Container Apps
 ############################################################
@@ -108,6 +112,7 @@ template {
 }
 
 }
+
 
 
 
