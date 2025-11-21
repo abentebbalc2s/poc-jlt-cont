@@ -1,0 +1,54 @@
+name: 'POC ENV CONT TERRAFORM'
+
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write # This fetches an OpenID Connect (OIDC) token.
+  pull-requests: write  
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUB_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_USE_AZUREAD: true
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: poc
+    env : 
+      TF_BACKEND_FILE: ${{ secrets.TF_BACKEND_FILE }}
+      TF_VARS_FILE: ${{ secrets.TF_VARS_FILE }}
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Install the latest version of Terraform CLI 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init -backend-config "key=${TF_BACKEND_FILE}" -reconfigure
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -var-file "${TF_VARS_FILE}" -input=false
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -var-file "${TF_VARS_FILE}" -auto-approve -input=false        
