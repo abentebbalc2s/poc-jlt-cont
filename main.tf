@@ -16,9 +16,13 @@ required_providers {
 
 */
 provider "azurerm" {
-  version = "=4.0"
-  features {}
-}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy = true
+    }
+  }
+  use_oidc = true
+} 
 
 ############################################################
 # Environment pour Container Apps
@@ -114,6 +118,7 @@ template {
 }
 
 }
+
 
 
 
